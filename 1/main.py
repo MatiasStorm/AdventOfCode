@@ -31,8 +31,7 @@ INPUT = [ 1946, 1859, 1654, 1806, 1648, 1873,
          1881, 1821, 1815, 1623, 1675, 1478, 
          1886, 1951, 1700, 1890, 1876, 1781, 
          1853, 1983, 1901, 1939, 1292, 853, 
-         1879, 1652, 16,
-         257, 689, 125, 949
+         1879, 1652, 16
     ] 
 
 def sum_indexes(arr, indexes):
@@ -112,32 +111,48 @@ def find_summed_numbers3(arr, sum):
     return result
 
 if __name__ == "__main__":
-    input = sorted(INPUT)
-    part_1 = find_summed_numbers(input, 2, 2020)
-    print(part_1, sum(part_1))
+    pass
+    # input = sorted(INPUT)
+    # part_1 = find_summed_numbers(input, 2, 2020)
+    # print(part_1, sum(part_1))
 
-    part_2 = find_summed_numbers(input, 3, 2020)
-    print(part_2, sum(part_2))
+    # part_2 = find_summed_numbers(input, 3, 2020)
+    # print(part_2, sum(part_2))
 
-    part_3 = find_summed_numbers(input, 4, 2020)
-    print(part_3, sum(part_3))
+    # part_3 = find_summed_numbers(input, 4, 2020)
+    # print(part_3, sum(part_3))
 
-# Version 1:
-
-# print(sorted(INPUT))
-# result = 0;
-# for i in INPUT:
-#     for j in INPUT:
-#         for k in INPUT:
-#             if i == j == k:
+#                           #
+#       Version 1:          #
+#                           #
+# def part_1(input, s):
+#     for i in input:
+#         for j in input:
+#             if i == j:
 #                 break
-#             elif j + i + k == 2020:
-#                 print(i, j, k, i*j*k)
+#             elif j + i == s:
+#                 return (i, j, i*j)
+
+# def part_2(input, s):
+#     for i in input:
+#         for j in input:
+#             for k in input:
+#                 if i == j == k:
+#                     break
+#                 elif j + i + k == s:
+#                     return (i, j, k, i*j*k)
+
+
+# if __name__ == "__main__":
+#     print(part_1(INPUT, 2020))
+#     print(part_2(INPUT, 2020))
                 
 
 
 
-# Version 2:            
+#                           #
+#       Version 2:          #
+#                           #
 
 # def find_summed_numbers(arr, sum):
 #     result = []
