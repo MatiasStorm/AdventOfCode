@@ -14,7 +14,7 @@ INPUT = [ 1946, 1859, 1654, 1806, 1648, 1873,
          1701, 1724, 1293, 1834, 1712, 1950, 
          1844, 1290, 1692, 1820, 1585, 1986, 
          1328, 1841, 1709, 1232, 1945, 1684, 
-         1787, 1991, 1914, 16, 1977, 1620, 
+         1787, 1991, 1914, 1977, 1620, 
          1825, 1866, 1615, 1832, 496, 1932, 
          1819, 1559, 1870, 1677, 1650, 1594, 
          1664, 1600, 1622, 1862, 1937, 1624, 
@@ -31,7 +31,8 @@ INPUT = [ 1946, 1859, 1654, 1806, 1648, 1873,
          1881, 1821, 1815, 1623, 1675, 1478, 
          1886, 1951, 1700, 1890, 1876, 1781, 
          1853, 1983, 1901, 1939, 1292, 853, 
-         1879, 1652
+         1879, 1652, 16,
+         257, 689, 125, 949
     ] 
 
 def sum_indexes(arr, indexes):
@@ -42,39 +43,84 @@ def sum_indexes(arr, indexes):
 
 def find_summed_numbers(arr, n_numbers, sum):
     result = []
+    indexes = [i for i in range(0, n_numbers - 1)]
+    max_indexes = [i for i in range(0, n_numbers - 1)]
+    moved_index_sum = 0
+    last_moved_index = -1
+    while len(result) == 0:
+        if sum_indexes(arr, indexes + [-1]) > sum:
+            arr = arr[0:-1]
+            indexes = [i for i in range(0, n_numbers - 1)]
+            max_indexes = [i for i in range(0, n_numbers - 1)]
+            moved_index_sum = 0
+            last_moved_index = -1
 
+
+        elif sum_indexes(arr, indexes + [-1]) == sum:
+            result = [arr[i] for i in indexes + [-1]]
+        else:
+            ldi = -1 # Lowest diff index
+            lowest_diff = 0
+            for i in indexes:
+                if not i + 1 in indexes: # Check if the current index can move
+                    if i + 1 >= len(arr): # Could'n find any match
+                        return []
+                    if indexes.index(i) == last_moved_index: # Check if we are moving an already moves index
+                        diff = arr[i + 1] - arr[i] + moved_index_sum
+                    else:
+                        diff = arr[i + 1] - arr[i]
+                    if diff < lowest_diff or lowest_diff == 0:
+                        lowest_diff = diff
+                        ldi = i
+            index_of_ldi = indexes.index(ldi)
+            if index_of_ldi != last_moved_index: # Not moving the same as before, reset sum
+                moved_index_sum = lowest_diff
+            else:                               # Else - Increase the running sum
+                moved_index_sum += lowest_diff
+
+            last_moved_index = index_of_ldi
+            indexes[index_of_ldi] += 1 # Move the index with the lowest difference
+            
+            if max_indexes[index_of_ldi] < indexes[index_of_ldi]:
+                if index_of_ldi > 0:
+                    indexes[0:index_of_ldi] = [i for i in range(0, index_of_ldi)]
+
+                if index_of_ldi < len(indexes) - 1:
+                    indexes[index_of_ldi+1:len(indexes)] = [i for i in range(ldi+2, len(indexes[index_of_ldi+1:len(indexes)]) + ldi + 2)]
+
+                max_indexes[index_of_ldi] += 1
+
+    return result
+
+def find_summed_numbers3(arr, sum):
+    result = []
     fi = 0
     mi = 1
     while len(result) == 0:
         if arr[fi] + arr[mi] + arr[-1] > sum:
             arr = arr[0:-1]
+            fi = 0
+            mi = 1
         elif arr[fi] + arr[mi] + arr[-1] < sum:
-            if mi == 1:
+            if mi - 1 == fi:
                 mi += 1
-            elif mi == fi - 1:
                 fi = 0
-                mi = 1
-                arr = arr[0: -1]
             else:
                 fi += 1
         else:
             result = [arr[fi], arr[mi], arr[-1]]
     return result
 
-def multiply_array(arr):
-    sum = 0
-    for i in arr:
-        sum += i
-    return sum
-
-
 if __name__ == "__main__":
     input = sorted(INPUT)
     part_1 = find_summed_numbers(input, 2, 2020)
-    print(part_1, multiply_array(part_1))
+    print(part_1, sum(part_1))
 
     part_2 = find_summed_numbers(input, 3, 2020)
-    print(part_2, multiply_array(part_2))
+    print(part_2, sum(part_2))
+
+    part_3 = find_summed_numbers(input, 4, 2020)
+    print(part_3, sum(part_3))
 
 # Version 1:
 
@@ -108,19 +154,17 @@ if __name__ == "__main__":
 
 # def find_summed_numbers3(arr, sum):
 #     result = []
-
 #     fi = 0
 #     mi = 1
 #     while len(result) == 0:
 #         if arr[fi] + arr[mi] + arr[-1] > sum:
 #             arr = arr[0:-1]
+#             fi = 0
+#             mi = 1
 #         elif arr[fi] + arr[mi] + arr[-1] < sum:
-#             if mi == 1:
+#             if mi - 1 == fi:
 #                 mi += 1
-#             elif mi == fi - 1:
 #                 fi = 0
-#                 mi = 1
-#                 arr = arr[0: -1]
 #             else:
 #                 fi += 1
 #         else:
