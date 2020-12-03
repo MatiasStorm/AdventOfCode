@@ -1,21 +1,12 @@
-import requests
-
 def get_input():
     input = []
-    with open('input.txt', 'r') as file:
-        while True:
-            line = file.readline()
-            if line:
-                input.append(line.replace('\n', ''))
-            else: 
-                break
+    with open('input.txt', 'r') as f:
+        input = [l.strip() for l in f.readlines()]
     return input
 
 def split_input_row(row):
     row_arr = row.split(" ")
-    min_max = row_arr[0].split('-')
-    first_num = int(min_max[0])
-    second_num = int(min_max[1])
+    first_num, second_num = map(int, row_arr[0].split('-'))
     character = row_arr[1][0]
     password = row_arr[2]
     return (first_num, second_num, character, password)
