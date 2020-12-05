@@ -13,7 +13,7 @@ def count_trees(down, left, tree_char, field):
         if field[r][c] == tree_char:
             trees += 1
         r += down
-        c = ( c + left ) % width
+        c = ( c + left ) % width # Add left amount, and % width to simulate an infinitely repeating grid. 
     return trees
 
 if __name__ == "__main__":
