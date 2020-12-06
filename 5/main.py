@@ -22,20 +22,20 @@ def read_seat_plan():
     return plan
 
 def get_highest_seat_id(plan):
-    for r in range(len(plan) - 1, -1, -1):
-        if sum(plan[r]) > 0:
-            for c in range(len(plan[r]) - 1, -1, -1):
+    for r in range(len(plan) - 1, -1, -1): # Loop backwards - Because the highest id is in the back
+        if sum(plan[r]) > 0: # Are any seats taken on the give row?
+            for c in range(len(plan[r]) - 1, -1, -1): # Again loop backwards on the row.
                 if plan[r][c] == 1:
-                    return r * 8 + c
+                    return r * 8 + c  # Return seat id
 
 def get_your_seat_id(plan):
     for r in range(len(plan)):
-        if 0 < sum(plan[r]) < 8:
-            for c in range(len(plan[r])):
+        if sum(plan[r]) == 7: # Do we have an empty seat on this row
+            for c in range(len(plan[r])): # Find the empty seat
                 if plan[r][c] == 0:
-                    return r * 8 + c
+                    return r * 8 + c # Return seat id
 
 if __name__ == "__main__":
     plan = read_seat_plan()
-    print(get_highest_seat_id(plan))
-    print(get_your_seat_id(plan))
+    print("Highest seat id: ", get_highest_seat_id(plan))
+    print("Your seat id: ", get_your_seat_id(plan))
