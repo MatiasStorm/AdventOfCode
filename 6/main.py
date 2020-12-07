@@ -1,15 +1,20 @@
-def sum_all_groups_part_1():
+def get_input():
+    input = []
     group = ""
-    result = 0
     with open("input.txt", "r") as f:
         for l in f.readlines():
             if l == "\n":
-                result +=len(set([i for i in group]))
+                input.append([set(i) for i in group.split(":")])
                 group = ""
             else:
-                group += l.strip()
-    return result
+                group += l.strip() if group == "" else ":" + l.strip()
+    return input
 
+def union(list_of_sets):
+    union = set(list_of_sets[0])
+    for i in list_of_sets[1:]:
+        union |= i
+    return union
 
 def intersection(list_of_sets):
     intersection = set(list_of_sets[0])
@@ -17,22 +22,8 @@ def intersection(list_of_sets):
         intersection &= i
     return intersection
 
-
-def sum_all_groups_part_2():
-    group_str = ""
-    result = 0
-    with open("input.txt", "r") as f:
-        for l in f.readlines():
-            if l == "\n":
-                group = [set(i) for i in group_str.split(":")]
-                result += len(intersection(group))
-                group_str = ""
-            else:
-                group_str += l.strip() if group_str == "" else ":" + l.strip()
-    return result
-
-
 if __name__ == '__main__':
-    print("Sum of all groups, Part 1: ", sum_all_groups_part_1())
-    print("Sum of all groups, Part 2: ", sum_all_groups_part_2())
+    input = get_input()
+    print("Sum of all groups, Part 1: ", sum([ len(union(g)) for g in input ]))
+    print("Sum of all groups, Part 2: ", sum([ len(intersection(g)) for g in input ]))
 
