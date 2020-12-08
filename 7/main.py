@@ -42,8 +42,3 @@ if __name__ == "__main__":
     input = read_input()
     print("Part one, number of surrounding bags: ", len(get_parent_bags(input, "shiny gold")))
     print("Part two, number of bags within: ", get_number_of_bags_within(input, "shiny gold"))
-
-
-
-
-
