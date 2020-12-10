@@ -30,8 +30,6 @@ def get_number_of_arrangements(input):
 
 if __name__ == '__main__':
     input = sorted(read_input("input.txt") + [0]) # Add 0 to account for the outlet
-    print(sorted(input))
     differences = get_jolts_differences(input)
-    print(differences)
     print("Part 1: ", differences[1] * differences[3])
-    print(get_number_of_arrangements(input))
+    print("Part 2: ", get_number_of_arrangements(input))
