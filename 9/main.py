@@ -18,21 +18,21 @@ def get_first_wrong_number(input, pream_len):
         if not is_number_correct(sorted(input[i: i + pream_len ]), input[i + pream_len]):
             return input[i + pream_len]
 
-def find_contigous_range(input, num):
+def find_contiguous_range(input, num):
     start_index = 0
     end_index = 1
-    contigous_range = input[0:2]
-    contigous_sum = sum(contigous_range)
-    while contigous_sum != num:
-        if contigous_sum < num:
+    contiguous_range = input[0:2]
+    contiguous_sum = sum(contiguous_range)
+    while contiguous_sum != num:
+        if contiguous_sum < num:
             end_index += 1
-            contigous_range.append(input[end_index])
-        elif contigous_sum > num:
+            contiguous_range.append(input[end_index])
+        elif contiguous_sum > num:
             start_index += 1
             end_index = start_index + 1
-            contigous_range = input[start_index: end_index + 1]
-        contigous_sum = sum(contigous_range)
-    return contigous_range
+            contiguous_range = input[start_index: end_index + 1]
+        contiguous_sum = sum(contiguous_range)
+    return contiguous_range
 
 
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     num = get_first_wrong_number(input, 25)
     print("Part one: ", num)
 
-    contigous_range = find_contigous_range(input, num)
+    contigous_range = find_contiguous_range(input, num)
     print("Part two: ", contigous_range[0] + contigous_range[-1])
 
 

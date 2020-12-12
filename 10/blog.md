@@ -1,3 +1,10 @@
+## Introduction
+This is my solution to the advent of code puzzle december 10th 2020.
+
+Code is available at [github](https://github.com/MatiasStorm/AdventOfCode_2020)
+
+## Solution
+```python
 def read_input(file_name):
     with open(file_name, 'r') as f:
         return [int(l.strip()) for l in f.readlines()]
@@ -33,3 +40,27 @@ if __name__ == '__main__':
     differences = get_jolts_differences(input)
     print("Part 1: ", differences[1] * differences[3])
     print("Part 2: ", get_number_of_arrangements(input))
+```
+Part 1 was pretty easy, 
+we just loop through the array of adapters and count the differences between each of them.
+
+Part 2 was a bit more tricky. An important thing to realize is that 
+the number of permutations in a group of contiguous adapters with length `n`,
+is equal to the sum of permutations in the previous three, that is `n-1`, `n-2` and `n-3`.
+
+**Example:**
+- `0`, You have no adapters, permutations = 1
+- `0, 1`, You only have one adapter, permutations = 1
+- `0, 1, 2`, You have two adapters, permutations = 1 + 1 = 2
+- `0, 1, 2, 3`, You have three adapters, permutations = 2 + 1 + 1 = 4
+- `0, 1, 2, 3, 4`, You have four adapters, permutations = 4 + 2 + 1 = 7.
+
+So for part 2, we just keep track of the number of permutations for each group of a given size.
+
+Look through the adapters to find groups of adapters with contiguous jolts,
+find the number permutations,
+and multiply it with the running total.
+
+
+Thanks for reading!
+
