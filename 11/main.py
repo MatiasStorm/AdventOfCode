@@ -2,7 +2,7 @@ def read_input(file_name):
     with open(file_name, "r") as f:
         return [[i for i in l.strip()] for l in f.readlines()]
 
-def adjecent(seats):
+def adjacent(seats):
     for seat in seats:
         row, col = seat
         adj_seats = []
@@ -60,13 +60,12 @@ def do_sim(seats, n_occ):
                 changes[seat] = "L"
         for c in changes:
             seats[c][0] = changes[c]
-        
     return len([i for i in seats if seats[i][0] == "#"])
 
 
 if __name__ == "__main__":
     plan = read_input("input.txt")
-    seats = get_seats(plan, adjecent)
+    seats = get_seats(plan, adjacent)
     print("Part 1: ", do_sim(seats, 4))
 
     seats = get_seats(plan, visible)
