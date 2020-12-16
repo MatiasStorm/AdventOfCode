@@ -1,6 +1,16 @@
-import math
-import time
+## Introduction
+This is a solution to the 13th puzzle of the advent of code 2020.
 
+The code is available at [github](https://github.com/MatiasStorm/AdventOfCode_2020)
+
+## Solution
+
+### Part 1
+Part 1 was pretty straight forward. 
+We just divide the bus id with the arrival time,
+round it up and multiply it with the same bus id to get the ealist time we could take that bus.
+
+```python
 def get_earliest_bus(file_name):
     with open(file_name, "r") as f:
         arrival = int(f.readline().strip())
@@ -14,8 +24,13 @@ def get_earliest_bus(file_name):
             earliest = timestamp
             bus_id = b
     return ( earliest - arrival ) * bus_id
+    
+print("Part 1:", get_earliest_bus("input.txt"))
+```
 
-
+### Part 2
+Part 2 was a bit more tricky, i tried to explain it as well as i could in the comments:
+```python
 def earliest_timestamp(file_name):
     busses = {}
     with open(file_name, "r") as f:
@@ -32,7 +47,8 @@ def earliest_timestamp(file_name):
             time_stamp += cm
         cm *= b # Get the new common multiple of all previous numbers
     return time_stamp
- 
-if __name__ == "__main__":
-    print("Part 1:", get_earliest_bus("input.txt"))
-    print("Part 2:", earliest_timestamp("input.txt"))
+
+print("Part 2:", earliest_timestamp("input.txt"))
+```
+
+Thanks for reading!
