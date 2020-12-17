@@ -1,3 +1,14 @@
+## Introduction
+This is a solution to the 15th puzzle of the advent of code 2020.
+
+The code is available at [github](https://github.com/MatiasStorm/AdventOfCode_2020)
+
+## Solution
+
+### Part 1
+
+As allways part one is somewhat straight forward.
+```python
 def read_fields():
     fields = {}
     with open("fields.txt", "r") as f:
@@ -30,6 +41,22 @@ def get_tickets_errorrate(tickets, fields):
                 errors += val
     return errors
 
+fields = read_fields()
+tickets = read_nearby_tickets()
+print("Part 1:", get_tickets_errorrate(tickets, fields))
+```
+We read the fields and their ranges, and all the tickets. 
+Then we check every value in every ticket and see if it matches a field range.
+
+### Part 2
+Part two was a bit more involved.
+
+The basic idea is to start with the first position of every ticket, 
+find the fields all tickets matches. If only one field is found that field 
+cannot be on any other position, thus we can remove it from the search.
+
+Here is the code:
+```python
 def remove_invalid_tickets(tickets, fields):
     for ticket in tickets.copy():
         for val in ticket:
@@ -47,24 +74,30 @@ def get_depature_product(tickets, fields):
     departure_fields = [i for i in fields if "departure" in i]
     product = 1
     while len([field for fields in positions for field in fields]) != len(tickets[0]): # Check if all positions are found
-        for i in range(len(tickets[0])):
-            for t in tickets:
-                for field in positions[i].copy(): # Remove fields that dont match this tickets position
+        for i in range(len(tickets[0])): # Loop through the possible field positions.
+            for t in tickets: # Loop through all the tickets
+                for field in positions[i].copy():
                     if t[i] not in fields[field]:
-                        positions[i].remove(field)
-                if len( positions[i] ) == 1:
+                        positions[i].remove(field) # Remove fields that dont match this tickets position
+                
+                if len( positions[i] ) == 1: # Only on possible field
                     field = positions[i][0]
+                    
                     if field in departure_fields: # Calculate the product
                         product *= your_ticket[i]
                         departure_fields.remove(field)
+                        
                     for j in range(len(positions)): # Remove found field from all other positions
                         if field in positions[j] and j != i:
                             positions[j].remove(field)
-                    break
+                    break # Don't need to look no further
     return product
+    
+    
+fields = read_fields()
+tickets = remove_invalid_tickets(read_nearby_tickets(), fields)
+print("Part 2:", get_depature_product(tickets, fields))
+```
+I have tried to document the code with comments as well as I could, hope it is understandable.
 
-if __name__ == "__main__":
-    fields = read_fields()
-    tickets = read_nearby_tickets()
-    print("Part 1:", get_tickets_errorrate(tickets, fields))
-    print("Part 2:", get_depature_product(remove_invalid_tickets(tickets, fields), fields))
+Thanks for reading!
