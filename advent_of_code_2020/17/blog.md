@@ -1,5 +1,13 @@
-import time
+## Introduction
+This is a solution to the 17th puzzle of the advent of code 2020.
 
+The code is available at [github](https://github.com/MatiasStorm/AdventOfCode_2020)
+
+## Solution
+
+### Part 1
+I have propably implemented the simplest solution, which also means its not very fast.
+```python
 def get_active(start):
     return [(0, y, x, 0) for y in range(len(start)) for x in range(len(start[0])) if start[y][x] == "#"]
 
@@ -45,5 +53,10 @@ if __name__ == "__main__":
 
     print("Part 1", get_number_of_active(start))
     print("Part 2", get_number_of_active(start, True))
+```
+The idea is to first look at all the active cubes and determine if they should stay active or
+change state to inactive.
 
-    
+Afterwards all the active cubes neighbours are checked to see if they should be activated.
+
+That was it for today, thanks for reading!
