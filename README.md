@@ -6,9 +6,9 @@ I use a different programming language for each year.
 
 ## Used languages overview
 
-| Language | Folder |
-| -------- | ------ |
-| go       | [advent_of_code_2019](advent_of_code_2019) |
-| python   | [advent_of_code_2020](advent_of_code_2020) |
-| rust     | [advent_of_code_2021](advent_of_code_2021) |
+| Language | Folder                     |
+| -------- | -------------------------- |
+| go       | [2019_go](2019_go)         |
+| python   | [2020_python](2020_python) |
+| rust     | [2021_rust](2021_rust)     |
 
