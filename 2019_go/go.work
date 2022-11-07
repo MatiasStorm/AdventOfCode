@@ -1,4 +1,6 @@
 go 1.19
 
-use ./common
-use ./01
+use (
+	./01
+	./02
+)

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-go run advent_of_code_2019/$1
+go run aoc/$1
 

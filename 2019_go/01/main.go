@@ -2,14 +2,24 @@ package main
 
 import (
     "fmt"
-    "advent_of_code_2019/common"
     "strconv"
+    "os"
+    "strings"
 )
 
 func main() {
-    input := common.GetInput("01/input1.txt")
+    input := readInput("01/input1.txt")
     fmt.Printf("Solution to 1: %d\n", _1(input))
     fmt.Printf("Solution to 2: %d\n", _2(input))
+}
+
+func readInput(name string) []string {
+    data, err := os.ReadFile(name)
+    if err != nil {
+        panic(err)
+    }
+    lines := strings.Split(string(data), "\n")
+    return lines[:len(lines) - 1]
 }
 
 func _1(values []string) int {
