@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-    input := readInput("02/input.txt")
+    input := readInput("input.txt")
     fmt.Println(input)
     fmt.Printf("Solution to 1: %d\n", _1(input))
     fmt.Printf("Solution to 2: %d\n", _2(input))
