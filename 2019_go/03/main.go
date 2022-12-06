@@ -7,64 +7,84 @@ import (
     "strconv"
 )
 
-type Orientation int
-const (
-    vertical Orientation    = 1
-    horizontal              = 2
-)
 
-
-type wireSegment struct {
-    x1 int
-    y1 int
-    x2 int
-    y2 int
-    orientation Orientation
+type Point struct {
+    x int
+    y int
 }
 
-type wire struct {
-    segemnts wireSegment
+type WireSegment struct {
+    start Point
+    end Point
+}
+
+type Wire struct {
+    horizontalSegments []WireSegment
+    verticalSegments []WireSegment
 }
 
 
 func main() {
-    fmt.Println("Hello")
+    print("Hello")
+    wires := getInput("./input.txt")
+    wire1 := wires[0]
+    wire2 := wires[1]
+    // var closestCrossingPoint Point
+    for _, hs := range wire1.horizontalSegments{
+        for _, vs := range wire2.verticalSegments{
+            if hs.start.x   <= vs.start.x &&
+                hs.end.x    >= vs.start.x && 
+                vs.start.y  <= hs.start.y && 
+                vs.end.y    >= hs.start.y {
+                fmt.Println(hs, vs)
+            }
+        }
+    }
+    // for _, s := range wire1.verticalSegments{
+
+    // }
+    // fmt.Println(wire1, wire2)
 }
 
-func getInput(file string) [2]wireSegment {
+func getInput(file string) []Wire {
     data, err := os.ReadFile(file)
     if err != nil {
         panic(err)
     }
-    var wires = []wire{}
-    for _, l := range strings.Split(string(data), "\n") {
+    var wires = []Wire{}
+    for _, l := range strings.Split(string(data), "\n")[0:2] {
         var x, y = 0, 0
-        var wire = wire{}
+        wire := Wire{}
+        var segment WireSegment
         for _, e := range strings.Split(l, ",") {
-            segment := wireSegment{x1: x, y1: y}
-            dist, err := strconv.Atoi(e[1:4])
+            startPoint := Point{x: x, y: y}
+            dist, err := strconv.Atoi(e[1:len([]rune(e))])
             if err != nil {
                 panic(err)
             }
-            switch dir := e[0]; dir {
-            case 'U':
-                y += dist
-            case 'D':
-                y -= dist
-            case 'L':
-                x -= dist
-            case 'R':
-                x += dist
-            default:
-                panic("Unkown direction")
+            dir := e[0]
+            switch dir {
+                case 'U':
+                    y += dist
+                case 'D':
+                    y -= dist
+                case 'L':
+                    x -= dist
+                case 'R':
+                    x += dist
+                default:
+                    panic("Unkown direction")
             }
-            segment.x2 = x
-            segment.y2 = y
-            append(wire.segments, segment)
+            endPoint := Point{x: x, y: y}
+            segment = WireSegment{start: startPoint, end: endPoint}
+            if startPoint.y != y {
+                wire.verticalSegments = append(wire.verticalSegments, segment)
+            } else {
+                wire.horizontalSegments = append(wire.horizontalSegments, segment)
+            }
         }
-        append(wires, wire)
+        wires = append(wires, wire)
     }
     return wires
 }
 
-func 
