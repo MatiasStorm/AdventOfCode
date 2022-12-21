@@ -6,8 +6,9 @@ Solution to AoC puzzles 2019, written in go.
 
 To run the code for a specific day execute,
 
-`./run.sh [folder]`
+1. `cd [folder]`
+2. `go run .`
 
-i.e to run code for day 1:
+## Create go project
 
-`./run.sh 01`
+`go mod init aoc/[folder]`
