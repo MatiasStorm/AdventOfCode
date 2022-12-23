@@ -7,13 +7,8 @@ import (
 
 func main() {
     from, to := readInput("input.txt")
-    validPasswords := 0
-    for p := from; p <= to; p++ {
-        if isValidPassword(strconv.Itoa(p), 6){
-            validPasswords++
-        }
-    }
-    println("Part 1: ", validPasswords)
+    println("Part 1: ", getNumberOfValidPasswords(from, to, getPart1Validators()))
+    println("Part 1: ", getNumberOfValidPasswords(from, to, getPart2Validators()))
 }
 
 func readInput(name string) (int, int) {
@@ -39,22 +34,75 @@ func readInput(name string) (int, int) {
     return numbers[0], numbers[1]
 }
 
+func getPart1Validators() []func(string) bool {
+    var validators []func(string) bool
+    validators = append(validators, onlyIncreases)
+    validators = append(validators, containsDuplicates)
+    return validators
+}
 
-func isValidPassword(p string, maxDuplicates int) bool {
-    increases := false
-    duplicate := false
-    increaseChar = p[0]
+func getPart2Validators() []func(string) bool {
+    var validators []func(string) bool
+    validators = append(validators, onlyIncreases)
+    validators = append(validators, containsSingleDuplicate)
+    return validators
+}
 
-    for i := 1; i < len(p); i++ {
-        if p[i] == p[i - 1] {
-            duplicate = true
-        }
-        if p[i] >= p[i - 1]{
-            increases += true
-        } else {
-            increases += false
-            break
+func getNumberOfValidPasswords(from int, to int, validators []func(string) bool ) int {
+    validPasswords := 0
+    for p := from; p <= to; p++ {
+        if isValidPassword(strconv.Itoa(p), validators){
+            validPasswords++
         }
     }
-    return increases && duplicate
+    return validPasswords
 }
+
+func isValidPassword(p string, validators []func(string) bool) bool {
+    for _, v := range(validators) {
+        if !v(p){
+            return false
+        }
+    }
+    return true
+}
+
+
+func onlyIncreases(p string) bool {
+    for i := 1; i < len(p); i++ {
+        if p[i - 1] > p[i]{
+            return false
+        }     
+    }
+    return true
+}
+
+func containsDuplicates(p string) bool {
+    for i := 1; i < len(p); i++ {
+        if p[i - 1] == p[i]{
+            return true
+        }     
+    }
+    return false
+}
+
+func containsSingleDuplicate(p string) bool {
+    duplicates := 1
+    var groups []int
+    for i := 1; i < len(p); i++ {
+        if p[i - 1] == p[i]{
+            duplicates += 1
+        } else {
+            groups = append(groups, duplicates)
+            duplicates = 1
+        }
+    }
+    groups = append(groups, duplicates)
+    for _, g := range(groups){
+        if g == 2 {
+            return true
+        }
+    }
+    return false
+}
+
