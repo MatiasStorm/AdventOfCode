@@ -11,4 +11,5 @@ I use a different programming language for each year.
 | go       | [2019_go](2019_go)         |
 | python   | [2020_python](2020_python) |
 | rust     | [2021_rust](2021_rust)     |
+| bash     | [2023_bash](2023_bash)     |
 
